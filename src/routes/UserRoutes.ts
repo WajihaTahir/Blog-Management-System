@@ -1,5 +1,5 @@
 import express from "express";
-import { createUser, login } from "../controllers/UserController";
+import { createUser, getUser, login } from "../controllers/UserController";
 const userRouter = express.Router();
 import {
   validateCreateUserInput,
@@ -8,5 +8,6 @@ import {
 
 userRouter.post("/create", validateCreateUserInput, createUser);
 userRouter.post("/login", validateLoginInput, login);
+userRouter.get("/:id", getUser);
 
 export default userRouter;

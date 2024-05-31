@@ -5,7 +5,6 @@ import { appErrors, appMessages } from "../src/utils/appStrings";
 import { verifyPassword } from "../src/utils/verifyPassword";
 import { generateToken } from "../src/utils/tokenServices";
 
-jest.mock("../src/utils/encryptPassword");
 jest.mock("../src/models/userModel");
 jest.mock("../src/utils/verifyPassword");
 jest.mock("../src/utils/tokenServices");

@@ -88,3 +88,17 @@ export const login = async (req: Request, res: Response) => {
     res.status(500).json({ error: appErrors.generalError });
   }
 };
+
+export const getUser = async (req: Request, res: Response) => {
+  try {
+    const foundUser = await UserModel.findOne({
+      _id: req.params.id,
+    }).select("-password");
+    if (!foundUser) {
+      return res.status(404).json({ error: appErrors.noUserFound });
+    }
+    res.status(200).json(foundUser);
+  } catch (e) {
+    res.status(500).json({ error: appErrors.generalError });
+  }
+};
