@@ -6,8 +6,13 @@ export const appErrors = {
   invalidPasswordError: "Password must be at least 8 characters long",
   invalidRoleError: 'Invalid role. Must be either "user" or "admin"',
   notFoundError: "Endpoint not found.",
+  passwordRequiredError: "Password is required",
+  userNotFound: "No user with this email",
+  incorrectPassword: "Password incorrect",
+  tokenError: "Error occured during generating the token",
 };
 
 export const appMessages = {
   userCreateSuccess: "User created successfully",
+  loginSuccess: "User logged in successfully",
 };
