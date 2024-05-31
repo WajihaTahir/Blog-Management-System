@@ -10,6 +10,8 @@ export const appErrors = {
   userNotFound: "No user with this email",
   incorrectPassword: "Password incorrect",
   tokenError: "Error occured during generating the token",
+  idRequiredError: "Id is required to get user",
+  noUserFound: "No user found",
 };
 
 export const appMessages = {
