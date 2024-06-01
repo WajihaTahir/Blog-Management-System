@@ -140,3 +140,17 @@ export const updateUser = async (req: Request, res: Response) => {
       .json({ message: "error updating the user info", error: error });
   }
 };
+
+export const deleteUser = async (req: Request, res: Response) => {
+  const id = req.params.id;
+  try {
+    const user = await UserModel.findOneAndDelete({ _id: id });
+    if (!user) {
+      return res.status(404).json({ error: appErrors.userIdNotFound });
+    }
+
+    return res.status(200).json({ msg: appMessages.userDeleteSuccess });
+  } catch (error: any) {
+    return res.status(500).json({ error: error.message });
+  }
+};

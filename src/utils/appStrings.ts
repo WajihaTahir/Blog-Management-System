@@ -14,9 +14,11 @@ export const appErrors = {
   noUserFound: "No user found",
   userNameInvalid: "Invalid user name",
   unauthorizedError: "Unauthorized",
+  userIdNotFound: "No user with this ID ",
 };
 
 export const appMessages = {
   userCreateSuccess: "User created successfully",
   loginSuccess: "User logged in successfully",
+  userDeleteSuccess: "User deleted successfully",
 };
