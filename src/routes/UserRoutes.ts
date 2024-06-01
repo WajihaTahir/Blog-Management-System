@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createUser,
+  deleteUser,
   getUser,
   login,
   updateUser,
@@ -17,5 +18,6 @@ userRouter.post("/create", validateCreateUserInput, createUser);
 userRouter.post("/login", validateLoginInput, login);
 userRouter.get("/:id", getUser);
 userRouter.patch("/:id", jwtAuth, validateUpdateUserInput, updateUser);
+userRouter.delete("/:id", deleteUser);
 
 export default userRouter;
