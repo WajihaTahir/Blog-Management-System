@@ -20,3 +20,17 @@ export const createBlog = async (req: Request, res: Response) => {
     res.status(500).json({ error: error });
   }
 };
+
+export const getBlog = async (req: Request, res: Response) => {
+  try {
+    const foundBlog = await BlogModel.findOne({
+      _id: req.params.id,
+    });
+    if (!foundBlog) {
+      return res.status(404).json({ error: appErrors.noBlogFound });
+    }
+    res.status(200).json(foundBlog);
+  } catch (e) {
+    res.status(500).json({ error: appErrors.generalError });
+  }
+};
