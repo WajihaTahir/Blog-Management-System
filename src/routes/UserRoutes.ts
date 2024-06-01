@@ -18,6 +18,6 @@ userRouter.post("/create", validateCreateUserInput, createUser);
 userRouter.post("/login", validateLoginInput, login);
 userRouter.get("/:id", getUser);
 userRouter.patch("/:id", jwtAuth, validateUpdateUserInput, updateUser);
-userRouter.delete("/:id", deleteUser);
+userRouter.delete("/:id", jwtAuth, deleteUser);
 
 export default userRouter;
