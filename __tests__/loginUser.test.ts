@@ -43,7 +43,6 @@ describe("POST /api/user/login", () => {
 
   it("should login successfully with valid input", async () => {
     (verifyPassword as jest.Mock).mockResolvedValue(true);
-    //@ts-ignore
     (generateToken as jest.Mock).mockResolvedValue({});
 
     (UserModel.findOne as jest.Mock).mockResolvedValue({

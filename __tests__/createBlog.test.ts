@@ -4,7 +4,7 @@ import jwtAuth from "../src/middlewares/jwtAuth";
 
 import BlogModel from "../src/models/BlogModel";
 import { appErrors } from "../src/utils/appStrings";
-import { NextFunction } from "express";
+import { NextFunction, Request, Response } from "express";
 
 jest.mock("../src/models/blogModel");
 jest.mock("../src/middlewares/jwtAuth", () => jest.fn());
@@ -12,7 +12,6 @@ jest.mock("../src/middlewares/jwtAuth", () => jest.fn());
 beforeAll(() => {
   jwtAuth.mockImplementation(
     (req: Request, res: Response, next: NextFunction) => {
-      //@ts-ignore
       req.user = { id: "123", role: "user" };
       next();
     }

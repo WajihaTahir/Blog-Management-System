@@ -3,7 +3,7 @@ import { app } from "../src/app";
 import UserModel from "../src/models/UserModel";
 import { appErrors, appMessages } from "../src/utils/appStrings";
 import jwtAuth from "../src/middlewares/jwtAuth";
-import { NextFunction } from "express";
+import { NextFunction, Request, Response } from "express";
 
 jest.mock("../src/models/userModel");
 jest.mock("../src/middlewares/jwtAuth", () => jest.fn());
@@ -21,7 +21,6 @@ describe("PATCH /api/user/:id", () => {
   it("should return validation error for invalid email", async () => {
     jwtAuth.mockImplementation(
       (req: Request, res: Response, next: NextFunction) => {
-        //@ts-ignore
         req.user = { id: "123", role: "user" };
         next();
       }
@@ -41,7 +40,6 @@ describe("PATCH /api/user/:id", () => {
   it("should return validation error for short password", async () => {
     jwtAuth.mockImplementation(
       (req: Request, res: Response, next: NextFunction) => {
-        //@ts-ignore
         req.user = { id: "123", role: "user" };
         next();
       }
@@ -63,7 +61,6 @@ describe("PATCH /api/user/:id", () => {
   it("should throw error if user not authorized", async () => {
     jwtAuth.mockImplementation(
       (req: Request, res: Response, next: NextFunction) => {
-        //@ts-ignore
         req.user = { _id: "1234", role: "user" };
         next();
       }
@@ -79,7 +76,6 @@ describe("PATCH /api/user/:id", () => {
   it("should let user update their own profile", async () => {
     jwtAuth.mockImplementation(
       (req: Request, res: Response, next: NextFunction) => {
-        //@ts-ignore
         req.user = { _id: "123", role: "user" };
         next();
       }
@@ -99,7 +95,6 @@ describe("PATCH /api/user/:id", () => {
   it("should let user other users update if role is admin", async () => {
     jwtAuth.mockImplementation(
       (req: Request, res: Response, next: NextFunction) => {
-        //@ts-ignore
         req.user = { _id: "1234", role: "admin" };
         next();
       }
