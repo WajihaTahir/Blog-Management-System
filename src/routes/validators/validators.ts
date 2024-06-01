@@ -35,3 +35,20 @@ export const validateLoginInput = [
     next();
   },
 ];
+
+export const validateUpdateUserInput = [
+  body("username").optional().isString().withMessage(appErrors.userNameInvalid),
+  body("email").optional().isEmail().withMessage(appErrors.invalidEmailError),
+  body("password")
+    .optional()
+    .isLength({ min: 8 })
+    .withMessage(appErrors.invalidPasswordError),
+
+  (req: Request, res: Response, next: NextFunction) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    next();
+  },
+];

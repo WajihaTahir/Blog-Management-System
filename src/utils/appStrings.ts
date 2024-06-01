@@ -12,6 +12,8 @@ export const appErrors = {
   tokenError: "Error occured during generating the token",
   idRequiredError: "Id is required to get user",
   noUserFound: "No user found",
+  userNameInvalid: "Invalid user name",
+  unauthorizedError: "Unauthorized",
 };
 
 export const appMessages = {

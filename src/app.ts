@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import userRouter from "./routes/UserRoutes";
 import "dotenv/config";
 import { appErrors } from "./utils/appStrings";
+import jwtStrategy from "./config/passportConfig";
+import passport from "passport";
 
 export const app = express();
 
@@ -13,6 +15,7 @@ const addMiddlewares = () => {
       extended: true,
     })
   );
+  passport.use(jwtStrategy);
 };
 
 const addRoutes = () => {
