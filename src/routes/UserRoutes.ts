@@ -1,13 +1,21 @@
 import express from "express";
-import { createUser, getUser, login } from "../controllers/UserController";
+import {
+  createUser,
+  getUser,
+  login,
+  updateUser,
+} from "../controllers/UserController";
 const userRouter = express.Router();
 import {
   validateCreateUserInput,
   validateLoginInput,
+  validateUpdateUserInput,
 } from "./validators/validators";
+import jwtAuth from "../middlewares/jwtAuth";
 
 userRouter.post("/create", validateCreateUserInput, createUser);
 userRouter.post("/login", validateLoginInput, login);
 userRouter.get("/:id", getUser);
+userRouter.patch("/:id", jwtAuth, validateUpdateUserInput, updateUser);
 
 export default userRouter;
