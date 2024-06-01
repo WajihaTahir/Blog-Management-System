@@ -18,6 +18,7 @@ export const appErrors = {
   blogSubmissionError: "Blog could not be submitted",
   blogTitleMissing: "Blog title can't be empty",
   blogContentMissing: "Blog content can't be empty",
+  noBlogFound: "No blog found with this id",
 };
 
 export const appMessages = {
