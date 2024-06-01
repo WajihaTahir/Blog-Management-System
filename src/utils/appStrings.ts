@@ -19,6 +19,8 @@ export const appErrors = {
   blogTitleMissing: "Blog title can't be empty",
   blogContentMissing: "Blog content can't be empty",
   noBlogFound: "No blog found with this id",
+  notLoggedIn: "You need to be logged in.",
+  unauthorizedRoute: "You do not have permission to access this resource.",
 };
 
 export const appMessages = {

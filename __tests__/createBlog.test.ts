@@ -18,6 +18,12 @@ beforeAll(() => {
   );
 });
 
+const mockBlog = {
+  title: "test title",
+  content: "test content",
+  ownedbyuser: "123",
+};
+
 describe("POST /api/blog/create", () => {
   const createRoute = "/api/blog/create";
 
@@ -48,11 +54,6 @@ describe("POST /api/blog/create", () => {
   });
 
   it("should create a user successfully with valid input", async () => {
-    const mockBlog = {
-      title: "test title",
-      content: "test content",
-      ownedbyuser: "123",
-    };
     (BlogModel.create as jest.Mock).mockResolvedValue(mockBlog);
 
     const response = await request(app).post(createRoute).send(mockBlog);
@@ -61,5 +62,19 @@ describe("POST /api/blog/create", () => {
     expect(response.body).toEqual({
       blog: mockBlog,
     });
+  });
+
+  it("should not allow admin to create a blog", async () => {
+    jwtAuth.mockImplementation(
+      (req: Request, res: Response, next: NextFunction) => {
+        req.user = { id: "123", role: "admin" };
+        next();
+      }
+    );
+    (BlogModel.create as jest.Mock).mockResolvedValue(mockBlog);
+
+    const response = await request(app).post(createRoute).send(mockBlog);
+
+    expect(response.status).toBe(403);
   });
 });

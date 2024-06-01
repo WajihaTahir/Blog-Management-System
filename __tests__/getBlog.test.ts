@@ -43,4 +43,18 @@ describe("GET /api/blog/:id", () => {
     expect(response.status).toBe(404);
     expect(response.body).toEqual({ error: appErrors.noBlogFound });
   });
+
+  it("should not allow admin to read a blog", async () => {
+    jwtAuth.mockImplementation(
+      (req: Request, res: Response, next: NextFunction) => {
+        req.user = { id: "123", role: "admin" };
+        next();
+      }
+    );
+    (BlogModel.findOne as jest.Mock).mockResolvedValue(mockBlog);
+
+    const response = await request(app).get(getBlogRoute).send();
+
+    expect(response.status).toBe(403);
+  });
 });

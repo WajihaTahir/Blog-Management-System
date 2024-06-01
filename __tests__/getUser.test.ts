@@ -2,8 +2,20 @@ import request from "supertest";
 import { app } from "../src/app";
 import UserModel from "../src/models/UserModel";
 import { appErrors } from "../src/utils/appStrings";
+import { NextFunction, Request, Response } from "express";
+import jwtAuth from "../src/middlewares/jwtAuth";
 
 jest.mock("../src/models/userModel");
+jest.mock("../src/middlewares/jwtAuth", () => jest.fn());
+
+beforeAll(() => {
+  jwtAuth.mockImplementation(
+    (req: Request, res: Response, next: NextFunction) => {
+      req.user = { id: "123", role: "user" };
+      next();
+    }
+  );
+});
 
 describe("GET /api/user/:id", () => {
   const getUserRoute = "/api/user/123";

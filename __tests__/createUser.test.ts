@@ -3,9 +3,27 @@ import { app } from "../src/app";
 import { encryptPassword } from "../src/utils/encryptPassword";
 import UserModel from "../src/models/UserModel";
 import { appErrors, appMessages } from "../src/utils/appStrings";
+import jwtAuth from "../src/middlewares/jwtAuth";
+import { NextFunction, Request, Response } from "express";
 
 jest.mock("../src/utils/encryptPassword");
 jest.mock("../src/models/userModel");
+jest.mock("../src/middlewares/jwtAuth", () => jest.fn());
+
+beforeAll(() => {
+  jwtAuth.mockImplementation(
+    (req: Request, res: Response, next: NextFunction) => {
+      req.user = { id: "123", role: "admin" };
+      next();
+    }
+  );
+});
+
+const mockUser = {
+  email: "test@example.com",
+  username: "testuser",
+  role: "user",
+};
 
 describe("POST /api/user/create", () => {
   const createRoute = "/api/user/create";
@@ -80,11 +98,7 @@ describe("POST /api/user/create", () => {
   it("should create a user successfully with valid input", async () => {
     (encryptPassword as jest.Mock).mockResolvedValue("hashedpassword123");
 
-    (UserModel.create as jest.Mock).mockResolvedValue({
-      email: "test@example.com",
-      username: "testuser",
-      role: "user",
-    });
+    (UserModel.create as jest.Mock).mockResolvedValue(mockUser);
 
     const response = await request(app).post(createRoute).send({
       username: "testuser",
@@ -97,12 +111,30 @@ describe("POST /api/user/create", () => {
     expect(response.body).toEqual({
       message: appMessages.userCreateSuccess,
       data: {
-        user: {
-          username: "testuser",
-          email: "test@example.com",
-          role: "user",
-        },
+        user: mockUser,
       },
     });
+  });
+
+  it("should not allow user role to creat new user", async () => {
+    jwtAuth.mockImplementation(
+      (req: Request, res: Response, next: NextFunction) => {
+        req.user = { id: "123", role: "user" };
+        next();
+      }
+    );
+
+    (encryptPassword as jest.Mock).mockResolvedValue("hashedpassword123");
+
+    (UserModel.create as jest.Mock).mockResolvedValue(mockUser);
+
+    const response = await request(app).post(createRoute).send({
+      username: "testuser",
+      email: "test@example.com",
+      password: "password123",
+      role: "user",
+    });
+
+    expect(response.status).toBe(403);
   });
 });
