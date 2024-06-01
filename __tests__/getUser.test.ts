@@ -11,7 +11,7 @@ jest.mock("../src/middlewares/jwtAuth", () => jest.fn());
 beforeAll(() => {
   jwtAuth.mockImplementation(
     (req: Request, res: Response, next: NextFunction) => {
-      req.user = { id: "123", role: "user" };
+      req.user = { _id: "123", role: "user" };
       next();
     }
   );
@@ -21,7 +21,7 @@ describe("GET /api/user/:id", () => {
   const getUserRoute = "/api/user/123";
 
   const mockUser = {
-    _id: 123,
+    _id: "123",
     email: "test@example.com",
     username: "testuser",
     role: "user",
@@ -47,5 +47,21 @@ describe("GET /api/user/:id", () => {
 
     expect(response.status).toBe(404);
     expect(response.body).toEqual({ error: appErrors.noUserFound });
+  });
+
+  it("should not let users read other users", async () => {
+    jwtAuth.mockImplementation(
+      (req: Request, res: Response, next: NextFunction) => {
+        req.user = { _id: "1234", role: "user" };
+        next();
+      }
+    );
+    (UserModel.findOne as jest.Mock).mockImplementation(() => ({
+      select: jest.fn().mockResolvedValue(mockUser),
+    }));
+
+    const response = await request(app).get(getUserRoute).send();
+
+    expect(response.status).toBe(401);
   });
 });

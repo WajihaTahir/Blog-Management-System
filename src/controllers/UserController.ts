@@ -92,6 +92,13 @@ export const login = async (req: Request, res: Response) => {
 
 export const getUser = async (req: Request, res: Response) => {
   try {
+    const id = req.params.id;
+
+    if ((req?.user as UserType)?.role === "user") {
+      if (id !== (req?.user as UserType)?._id?.toString()) {
+        return res.status(401).json({ error: appErrors.unauthorizedError });
+      }
+    }
     const foundUser = await UserModel.findOne({
       _id: req.params.id,
     }).select("-password");
