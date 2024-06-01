@@ -11,7 +11,7 @@ import {
   validateCreateUserInput,
   validateLoginInput,
   validateUpdateUserInput,
-} from "./validators/validators";
+} from "../middlewares/validators";
 import jwtAuth from "../middlewares/jwtAuth";
 import { authorizeRoles } from "../middlewares/authorizeRoles";
 

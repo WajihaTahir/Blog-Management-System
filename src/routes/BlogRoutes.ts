@@ -1,5 +1,5 @@
 import express from "express";
-import { validateCreateBlog } from "./validators/validators";
+import { validateCreateBlog } from "../middlewares/validators";
 import jwtAuth from "../middlewares/jwtAuth";
 import { createBlog, getBlog } from "../controllers/BlogController";
 import { authorizeRoles } from "../middlewares/authorizeRoles";

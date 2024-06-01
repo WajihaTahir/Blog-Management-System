@@ -1,5 +1,5 @@
 import { body, validationResult } from "express-validator";
-import { appErrors } from "../../utils/appStrings";
+import { appErrors } from "../utils/appStrings";
 import { Request, Response, NextFunction } from "express";
 
 export const validateCreateUserInput = [
