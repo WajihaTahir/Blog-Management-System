@@ -11,7 +11,7 @@ jest.mock("../src/middlewares/jwtAuth", () => jest.fn());
 beforeAll(() => {
   jwtAuth.mockImplementation(
     (req: Request, res: Response, next: NextFunction) => {
-      req.user = { id: "123", role: "user" };
+      req.user = { id: "123", role: "admin" };
       next();
     }
   );
@@ -42,5 +42,19 @@ describe("DELETE /api/user/:id", () => {
 
     expect(response.status).toBe(404);
     expect(response.body).toEqual({ error: appErrors.userIdNotFound });
+  });
+
+  it("should not allow user role to delete a user", async () => {
+    jwtAuth.mockImplementation(
+      (req: Request, res: Response, next: NextFunction) => {
+        req.user = { id: "123", role: "user" };
+        next();
+      }
+    );
+    (UserModel.findOneAndDelete as jest.Mock).mockResolvedValue(mockUser);
+
+    const response = await request(app).delete(getUserRoute).send();
+
+    expect(response.status).toBe(403);
   });
 });
