@@ -15,6 +15,9 @@ export const appErrors = {
   userNameInvalid: "Invalid user name",
   unauthorizedError: "Unauthorized",
   userIdNotFound: "No user with this ID ",
+  blogSubmissionError: "Blog could not be submitted",
+  blogTitleMissing: "Blog title can't be empty",
+  blogContentMissing: "Blog content can't be empty",
 };
 
 export const appMessages = {

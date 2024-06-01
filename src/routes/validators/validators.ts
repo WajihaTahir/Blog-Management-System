@@ -52,3 +52,16 @@ export const validateUpdateUserInput = [
     next();
   },
 ];
+
+export const validateCreateBlog = [
+  body("title").isString().withMessage(appErrors.blogTitleMissing),
+  body("content").isString().withMessage(appErrors.blogContentMissing),
+
+  (req: Request, res: Response, next: NextFunction) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    next();
+  },
+];

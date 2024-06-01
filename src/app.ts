@@ -5,6 +5,7 @@ import "dotenv/config";
 import { appErrors } from "./utils/appStrings";
 import jwtStrategy from "./config/passportConfig";
 import passport from "passport";
+import blogRouter from "./routes/BlogRoutes";
 
 export const app = express();
 
@@ -20,6 +21,7 @@ const addMiddlewares = () => {
 
 const addRoutes = () => {
   app.use("/api/user", userRouter);
+  app.use("/api/blog", blogRouter);
   app.use("*", (req, res) =>
     res.status(404).json({ error: appErrors.notFoundError })
   );
