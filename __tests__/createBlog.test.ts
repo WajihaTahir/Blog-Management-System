@@ -9,13 +9,15 @@ import { NextFunction } from "express";
 jest.mock("../src/models/blogModel");
 jest.mock("../src/middlewares/jwtAuth", () => jest.fn());
 
-jwtAuth.mockImplementation(
-  (req: Request, res: Response, next: NextFunction) => {
-    //@ts-ignore
-    req.user = { id: "123", role: "user" };
-    next();
-  }
-);
+beforeAll(() => {
+  jwtAuth.mockImplementation(
+    (req: Request, res: Response, next: NextFunction) => {
+      //@ts-ignore
+      req.user = { id: "123", role: "user" };
+      next();
+    }
+  );
+});
 
 describe("POST /api/blog/create", () => {
   const createRoute = "/api/blog/create";

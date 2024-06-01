@@ -2,8 +2,21 @@ import request from "supertest";
 import { app } from "../src/app";
 import UserModel from "../src/models/UserModel";
 import { appErrors } from "../src/utils/appStrings";
+import jwtAuth from "../src/middlewares/jwtAuth";
+import { NextFunction } from "express";
 
 jest.mock("../src/models/userModel");
+jest.mock("../src/middlewares/jwtAuth", () => jest.fn());
+
+beforeAll(() => {
+  jwtAuth.mockImplementation(
+    (req: Request, res: Response, next: NextFunction) => {
+      //@ts-ignore
+      req.user = { id: "123", role: "user" };
+      next();
+    }
+  );
+});
 
 describe("DELETE /api/user/:id", () => {
   const getUserRoute = "/api/user/123";
