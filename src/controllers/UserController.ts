@@ -161,3 +161,18 @@ export const deleteUser = async (req: Request, res: Response) => {
     return res.status(500).json({ error: error.message });
   }
 };
+
+export const getAllUsers = async (req: Request, res: Response) => {
+  try {
+    const allUsers = await UserModel.find({}).select("-password");
+
+    res.status(201).json({
+      users: allUsers,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error,
+      messsage: appErrors.generalError,
+    });
+  }
+};

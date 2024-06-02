@@ -2,6 +2,7 @@ import express from "express";
 import {
   createUser,
   deleteUser,
+  getAllUsers,
   getUser,
   login,
   updateUser,
@@ -36,5 +37,7 @@ userRouter.patch(
 );
 
 userRouter.delete("/:id", jwtAuth, authorizeRoles("admin"), deleteUser);
+
+userRouter.get("/users/all", jwtAuth, authorizeRoles("admin"), getAllUsers);
 
 export default userRouter;
