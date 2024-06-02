@@ -34,3 +34,18 @@ export const getBlog = async (req: Request, res: Response) => {
     res.status(500).json({ error: appErrors.generalError });
   }
 };
+
+export const getAllBlogs = async (req: Request, res: Response) => {
+  try {
+    const allBlogs = await BlogModel.find({});
+
+    res.status(201).json({
+      blogs: allBlogs,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error,
+      messsage: appErrors.generalError,
+    });
+  }
+};
